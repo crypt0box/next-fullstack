@@ -4,6 +4,7 @@ import PostCreateButton from "./post-create-button";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
+import PostItem from "@/components/post-item";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -32,6 +33,17 @@ export default async function DashboardPage() {
       <DashboardHeader heading="記事投稿" text="記事の投稿と管理">
         <PostCreateButton />
       </DashboardHeader>
+      <div>
+        {posts.length ? (
+          <div className="divide-y border rounded-md">
+            {posts.map((post) => (
+              <PostItem key={post.id} post={post} />
+            ))}
+          </div>
+        ) : (
+          <div className="ml-2">投稿がありません。</div>
+        )}
+      </div>
     </DashboardShell>
   );
 }
